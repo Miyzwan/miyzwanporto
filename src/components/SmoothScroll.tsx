@@ -9,9 +9,10 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
 
   // Skip smooth scroll on admin pages — it interferes with form inputs
-  if (pathname.startsWith('/admin')) return <>{children}</>
+  const isAdmin = pathname.startsWith('/admin')
 
   useEffect(() => {
+    if (isAdmin) return
     const init = async () => {
       const { default: gsap } = await import('gsap')
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')

@@ -9,26 +9,27 @@ import Scene3D from './Scene3D'
 export default function Scene3DFixed() {
   const pathname = usePathname()
   const scrollYProgress = useGlobalScrollProgress()
-
-  // Skip 3D background on admin pages to prevent input interference
-  if (pathname.startsWith('/admin')) return null
   const [progress, setProgress] = useState(0)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const isVisible = useInView(wrapperRef, { margin: '200px 0px 200px 0px' })
   const progressRef = useRef(0)
 
+  // Skip 3D background on admin pages — prevents input interference
+  const isAdmin = pathname.startsWith('/admin')
+
   useEffect(() => {
-    if (isVisible) {
-      setProgress(progressRef.current)
-    }
-  }, [isVisible])
+    if (!isVisible || isAdmin) return
+    setProgress(progressRef.current)
+  }, [isVisible, isAdmin])
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     progressRef.current = latest
-    if (isVisible) {
+    if (isVisible && !isAdmin) {
       setProgress(latest)
     }
   })
+
+  if (isAdmin) return null
 
   return (
     <div
