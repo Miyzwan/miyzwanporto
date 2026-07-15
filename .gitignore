@@ -45,4 +45,7 @@ AGENTS.md
 CLAUDE.md
 .hermes/
 
+# seed data (migrated to Supabase)
+/data/
+
 
