@@ -2,11 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useMotionValueEvent, useInView } from 'motion/react'
+import { usePathname } from 'next/navigation'
 import { useGlobalScrollProgress } from './ScrollProgressProvider'
 import Scene3D from './Scene3D'
 
 export default function Scene3DFixed() {
+  const pathname = usePathname()
   const scrollYProgress = useGlobalScrollProgress()
+
+  // Skip 3D background on admin pages to prevent input interference
+  if (pathname.startsWith('/admin')) return null
   const [progress, setProgress] = useState(0)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const isVisible = useInView(wrapperRef, { margin: '200px 0px 200px 0px' })

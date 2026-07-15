@@ -1,10 +1,15 @@
 'use client'
 
 import { useEffect, useRef, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import Lenis from '@studio-freight/lenis'
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
   const lenisRef = useRef<Lenis | null>(null)
+
+  // Skip smooth scroll on admin pages — it interferes with form inputs
+  if (pathname.startsWith('/admin')) return <>{children}</>
 
   useEffect(() => {
     const init = async () => {
