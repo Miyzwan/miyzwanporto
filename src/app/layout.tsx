@@ -6,6 +6,7 @@ import AppShell from '@/components/AppShell'
 import ScrollProgressProvider from '@/components/ScrollProgressProvider'
 import Scroll3DWrapper from '@/components/Scroll3DWrapper'
 import Scene3DFixed from '@/components/Scene3DFixed'
+import IntroGate from '@/components/intro/IntroGate'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,8 +62,9 @@ export default function RootLayout({
           referrerPolicy="no-referrer"
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`} suppressHydrationWarning>
         <ScrollProgressProvider>
+          <IntroGate />
           <Scene3DFixed />
           <SmoothScroll>
             <Scroll3DWrapper>
