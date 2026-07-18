@@ -163,6 +163,18 @@ html {
   51%, 100% { opacity: 0; }
 }
 
+/* Engine pulse for intro loading rocket */
+@keyframes engine-pulse {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
+  }
+  50% {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.9));
+  }
+}
+
 /* Social icon bounce — auto-pause offscreen */
 @keyframes social-bounce {
   0%, 100% { transform: translateY(0); }

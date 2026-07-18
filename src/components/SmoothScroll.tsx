@@ -4,6 +4,19 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Lenis from '@studio-freight/lenis'
 
+let lenisInstance: Lenis | null = null
+let scrollLocked = false
+
+export function stopLenis() {
+  scrollLocked = true
+  lenisInstance?.stop()
+}
+
+export function startLenis() {
+  scrollLocked = false
+  lenisInstance?.start()
+}
+
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const lenisRef = useRef<Lenis | null>(null)
@@ -35,6 +48,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       })
 
       lenisRef.current = lenis
+      lenisInstance = lenis
+      if (scrollLocked) lenis.stop()
 
       lenis.on('scroll', ScrollTrigger.update)
 
@@ -49,6 +64,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 
     return () => {
       lenisRef.current?.destroy()
+      lenisInstance = null
       import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
         ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill())
       })
